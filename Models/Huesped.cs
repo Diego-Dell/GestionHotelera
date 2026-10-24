@@ -1,13 +1,13 @@
-﻿using GestionHotelera;
+﻿namespace GestionHotelera.Models;
 
-namespace GestionHotelera.Models
+public class Huesped
 {
-    public class Huesped
-    {
-        public int IdHuesped { get; set; }
-        public string NombreHuesped { get; set; }
-        public string Celular { get; set; }
+    public int IdHuesped { get; set; }
 
-        public ICollection<Reserva> Reservas { get; set; }
-    }
+    public string NombreHuesped { get; set; } = string.Empty;
+
+    public string Celular { get; set; } = string.Empty;
+
+    public ICollection<Reserva> Reservas { get; set; }
+        = new List<Reserva>();
 }

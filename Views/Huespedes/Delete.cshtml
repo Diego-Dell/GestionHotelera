@@ -1,0 +1,30 @@
+﻿@model Huesped
+
+@{
+    ViewData["Title"] = "Eliminar huésped";
+}
+
+<h1>Eliminar huésped</h1>
+
+<p>¿Confirma que desea eliminar este huésped?</p>
+
+<dl class="row">
+    <dt class="col-sm-3">Nombre</dt>
+    <dd class="col-sm-9">@Model.NombreHuesped</dd>
+
+    <dt class="col-sm-3">Celular</dt>
+    <dd class="col-sm-9">@Model.Celular</dd>
+</dl>
+
+<form asp-action="Delete"
+      asp-route-id="@Model.IdHuesped"
+      method="post">
+
+    <button type="submit" class="btn btn-danger">
+        Confirmar eliminación
+    </button>
+
+    <a class="btn btn-outline-secondary" asp-action="Index">
+        Cancelar
+    </a>
+</form>

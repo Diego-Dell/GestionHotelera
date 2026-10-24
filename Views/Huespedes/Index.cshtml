@@ -1,0 +1,131 @@
+﻿@model ListaPaginada<Huesped>
+
+@{
+    ViewData["Title"] = "Huéspedes";
+    string? busqueda = ViewData["Busqueda"] as string;
+}
+
+<h1 class="mb-3">Huéspedes</h1>
+
+<a class="btn btn-primary mb-3" asp-action="Create">
+    Registrar huésped
+</a>
+
+<form method="get" asp-action="Index" class="row g-3 mb-3">
+    <div class="col-md-6">
+        <label for="busqueda" class="form-label">
+            Nombre o celular
+        </label>
+
+        <input type="text"
+               id="busqueda"
+               name="busqueda"
+               value="@busqueda"
+               class="form-control" />
+    </div>
+
+    <div class="col-md-6 d-flex align-items-end gap-2">
+        <button type="submit" class="btn btn-primary">
+            Buscar
+        </button>
+
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Limpiar
+        </a>
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Nombre del huésped</th>
+                <th>Celular</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var huesped in Model)
+            {
+                <tr>
+                    <td>@huesped.NombreHuesped</td>
+                    <td>@huesped.Celular</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary"
+                           asp-action="Details"
+                           asp-route-id="@huesped.IdHuesped">
+                            Detalle
+                        </a>
+
+                        <a class="btn btn-sm btn-outline-secondary"
+                           asp-action="Edit"
+                           asp-route-id="@huesped.IdHuesped">
+                            Editar
+                        </a>
+
+                        <a class="btn btn-sm btn-outline-danger"
+                           asp-action="Delete"
+                           asp-route-id="@huesped.IdHuesped">
+                            Eliminar
+                        </a>
+                    </td>
+                </tr>
+            }
+
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="3" class="text-center">
+                        No se encontraron huéspedes.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<p>
+    Total: @Model.TotalRegistros registros.
+    Página @Model.PaginaActual de @Model.TotalPaginas.
+</p>
+
+<nav aria-label="Páginas de huéspedes">
+    <ul class="pagination">
+        <li class="page-item @(!Model.TieneAnterior ? "disabled" : "")">
+            @if (Model.TieneAnterior)
+            {
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-pagina="@(Model.PaginaActual - 1)"
+                   asp-route-busqueda="@busqueda">
+                    Anterior
+                </a>
+            }
+            else
+            {
+                <span class="page-link" aria-disabled="true">
+                    Anterior
+                </span>
+            }
+        </li>
+
+        <li class="page-item @(!Model.TieneSiguiente ? "disabled" : "")">
+            @if (Model.TieneSiguiente)
+            {
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-pagina="@(Model.PaginaActual + 1)"
+                   asp-route-busqueda="@busqueda">
+                    Siguiente
+                </a>
+            }
+            else
+            {
+                <span class="page-link" aria-disabled="true">
+                    Siguiente
+                </span>
+            }
+        </li>
+    </ul>
+</nav>

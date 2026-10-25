@@ -36,6 +36,8 @@ await using (var scope = app.Services.CreateAsyncScope())
         .GetRequiredService<AppDbContext>();
 
     await HuespedSeeder.InicializarAsync(context, 30);
+    await HabitacionSeeder.InicializarAsync(context);
+    await ServicioSeeder.InicializarAsync(context);
 }
 
 app.Run();

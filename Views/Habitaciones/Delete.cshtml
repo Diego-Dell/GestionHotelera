@@ -1,0 +1,11 @@
+@model Habitacion
+@{ ViewData["Title"] = "Eliminar habitacion"; }
+<h1>Eliminar habitacion</h1>
+<p>¿Seguro que desea eliminar este registro? No será posible si tiene reservas asociadas.</p>
+<dl class="row">    <dt class="col-sm-3">Numero</dt><dd class="col-sm-9">@Model.Numero</dd>
+    <dt class="col-sm-3">Tipo</dt><dd class="col-sm-9">@Model.Tipo</dd>
+    <dt class="col-sm-3">Precio</dt><dd class="col-sm-9">@Model.Precio</dd></dl>
+<form asp-action="Delete" asp-route-id="@Model.IdHabitacion" method="post">
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+</form>

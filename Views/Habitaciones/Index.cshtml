@@ -1,0 +1,37 @@
+@model ListaPaginada<Habitacion>
+@{
+    ViewData["Title"] = "Habitaciones";
+    string? busqueda = ViewData["Busqueda"] as string;
+    string? tipo = ViewData["Tipo"] as string;
+}
+<h1 class="mb-3">Habitaciones</h1>
+@if (TempData["Exito"] != null) { <div class="alert alert-success">@TempData["Exito"]</div> }
+@if (TempData["Error"] != null) { <div class="alert alert-danger">@TempData["Error"]</div> }
+<a asp-action="Create" class="btn btn-primary mb-3">Registrar habitacion</a>
+<form method="get" asp-action="Index" class="row g-3 mb-3">
+<div class="col-md-4"><label for="busqueda" class="form-label">Número</label>
+<input name="busqueda" id="busqueda" value="@busqueda" class="form-control" /></div>
+<div class="col-md-3"><label class="form-label" for="tipo">Tipo</label>
+<input id="tipo" name="tipo" class="form-control" value="@tipo" /></div>
+<div class="col-md-4 d-flex align-items-end gap-2"><button class="btn btn-primary" type="submit">Buscar</button><a asp-action="Index" class="btn btn-outline-secondary">Limpiar</a></div>
+</form>
+<div class="table-responsive"><table class="table table-striped align-middle"><thead><tr><th>Numero</th><th>Tipo</th><th>Precio</th><th>Acciones</th></tr></thead><tbody>
+@foreach (var dato in Model) {
+<tr><td>@dato.Numero</td><td>@dato.Tipo</td><td>@dato.Precio</td><td>
+<a asp-action="Details" asp-route-id="@dato.IdHabitacion" class="btn btn-sm btn-outline-primary">Detalle</a>
+<a asp-action="Edit" asp-route-id="@dato.IdHabitacion" class="btn btn-sm btn-outline-secondary">Editar</a>
+<a asp-action="Delete" asp-route-id="@dato.IdHabitacion" class="btn btn-sm btn-outline-danger">Eliminar</a>
+</td></tr>
+}
+@if (!Model.Any()) { <tr><td colspan="4" class="text-center">No hay registros.</td></tr> }
+</tbody></table></div>
+<p>Total: @Model.TotalRegistros registros. Página @Model.PaginaActual de @Model.TotalPaginas.</p>
+<nav aria-label="Paginación"><ul class="pagination">
+<li class="page-item @(!Model.TieneAnterior ? "disabled" : "")">
+@if (Model.TieneAnterior) { <a class="page-link" asp-action="Index" asp-route-pagina="@(Model.PaginaActual - 1)" asp-route-busqueda="@busqueda" asp-route-tipo="@tipo">Anterior</a> }
+else { <span class="page-link">Anterior</span> }
+</li>
+<li class="page-item @(!Model.TieneSiguiente ? "disabled" : "")">
+@if (Model.TieneSiguiente) { <a class="page-link" asp-action="Index" asp-route-pagina="@(Model.PaginaActual + 1)" asp-route-busqueda="@busqueda" asp-route-tipo="@tipo">Siguiente</a> }
+else { <span class="page-link">Siguiente</span> }
+</li></ul></nav>

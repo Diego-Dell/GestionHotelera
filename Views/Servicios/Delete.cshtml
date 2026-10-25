@@ -1,0 +1,10 @@
+@model Servicio
+@{ ViewData["Title"] = "Eliminar servicio"; }
+<h1>Eliminar servicio</h1>
+<p>¿Seguro que desea eliminar este registro? No será posible si tiene reservas asociadas.</p>
+<dl class="row">    <dt class="col-sm-3">Nombre</dt><dd class="col-sm-9">@Model.Nombre</dd>
+    <dt class="col-sm-3">Precio</dt><dd class="col-sm-9">@Model.Precio</dd></dl>
+<form asp-action="Delete" asp-route-id="@Model.IdServicio" method="post">
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+</form>

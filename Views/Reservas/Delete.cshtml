@@ -1,0 +1,82 @@
+﻿@model Reserva
+
+@{
+    ViewData["Title"] = "Eliminar reserva";
+
+    bool puedeEliminar =
+        ViewData["PuedeEliminar"] is bool permitido
+        && permitido;
+}
+
+<h1 class="mb-3">Eliminar reserva</h1>
+
+@if (puedeEliminar)
+{
+    <div class="alert alert-warning">
+        ¿Estás seguro de que deseas eliminar esta reserva?
+        Esta acción no se puede deshacer.
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">
+        Esta reserva no se puede eliminar.
+        Debe estar cancelada y no tener servicios contratados.
+    </div>
+}
+
+<dl class="row">
+
+    <dt class="col-sm-3">Número de reserva</dt>
+    <dd class="col-sm-9">@Model.IdReserva</dd>
+
+    <dt class="col-sm-3">Huésped</dt>
+    <dd class="col-sm-9">
+        @Model.Huesped?.NombreHuesped
+    </dd>
+
+    <dt class="col-sm-3">Habitación</dt>
+    <dd class="col-sm-9">
+        @Model.Habitacion?.Numero
+    </dd>
+
+    <dt class="col-sm-3">Fecha de ingreso</dt>
+    <dd class="col-sm-9">
+        @Model.FechaInicio.ToString("dd/MM/yyyy")
+    </dd>
+
+    <dt class="col-sm-3">Fecha de salida</dt>
+    <dd class="col-sm-9">
+        @Model.FechaFin.ToString("dd/MM/yyyy")
+    </dd>
+
+    <dt class="col-sm-3">Método de pago</dt>
+    <dd class="col-sm-9">
+        @Model.MetodoPago
+    </dd>
+
+    <dt class="col-sm-3">Estado</dt>
+    <dd class="col-sm-9">
+        @Model.Estado
+    </dd>
+
+</dl>
+
+<form asp-action="Delete"
+      asp-route-id="@Model.IdReserva"
+      method="post">
+
+    @if (puedeEliminar)
+    {
+        <button type="submit"
+                class="btn btn-danger">
+            Confirmar eliminación
+        </button>
+    }
+
+    <a asp-action="Index"
+       class="btn btn-outline-secondary">
+        Volver al listado
+    </a>
+
+</form>

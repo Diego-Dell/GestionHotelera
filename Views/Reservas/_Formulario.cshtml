@@ -1,0 +1,84 @@
+﻿@model ReservaFormularioViewModel
+
+<input type="hidden" asp-for="IdReserva" />
+
+<div asp-validation-summary="ModelOnly"
+     class="text-danger"></div>
+
+<!-- HUÉSPED -->
+<div class="mb-3">
+    <label asp-for="IdHuesped" class="form-label"></label>
+
+    <select asp-for="IdHuesped"
+            asp-items="ViewBag.Huespedes"
+            class="form-select">
+        <option value="">Seleccione un huésped</option>
+    </select>
+
+    <span asp-validation-for="IdHuesped"
+          class="text-danger"></span>
+</div>
+
+<!-- HABITACIÓN -->
+<div class="mb-3">
+    <label asp-for="IdHabitacion" class="form-label"></label>
+
+    <select asp-for="IdHabitacion"
+            asp-items="ViewBag.Habitaciones"
+            class="form-select">
+        <option value="">Seleccione una habitación</option>
+    </select>
+
+    <span asp-validation-for="IdHabitacion"
+          class="text-danger"></span>
+</div>
+
+<!-- FECHA DE INGRESO -->
+<div class="mb-3">
+    <label asp-for="FechaInicio" class="form-label"></label>
+
+    <input asp-for="FechaInicio"
+           type="date"
+           class="form-control" />
+
+    <span asp-validation-for="FechaInicio"
+          class="text-danger"></span>
+</div>
+
+<!-- FECHA DE SALIDA -->
+<div class="mb-3">
+    <label asp-for="FechaFin" class="form-label"></label>
+
+    <input asp-for="FechaFin"
+           type="date"
+           class="form-control" />
+
+    <span asp-validation-for="FechaFin"
+          class="text-danger"></span>
+</div>
+
+<!-- MÉTODO DE PAGO -->
+<div class="mb-3">
+    <label asp-for="MetodoPago" class="form-label"></label>
+
+    <input asp-for="MetodoPago"
+           class="form-control"
+           placeholder="Ejemplo: Efectivo" />
+
+    <span asp-validation-for="MetodoPago"
+          class="text-danger"></span>
+</div>
+
+<!-- ESTADO -->
+<div class="mb-3">
+    <label asp-for="Estado" class="form-label"></label>
+
+    <select asp-for="Estado" class="form-select">
+        <option value="Pendiente">Pendiente</option>
+        <option value="Confirmada">Confirmada</option>
+        <option value="Cancelada">Cancelada</option>
+    </select>
+
+    <span asp-validation-for="Estado"
+          class="text-danger"></span>
+</div>

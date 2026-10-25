@@ -1,0 +1,108 @@
+﻿@model Reserva
+
+@{
+    ViewData["Title"] = "Detalle de reserva";
+}
+
+<h1 class="mb-3">Detalle de reserva</h1>
+
+<dl class="row">
+
+    <dt class="col-sm-3">
+        Número de reserva
+    </dt>
+    <dd class="col-sm-9">
+        @Model.IdReserva
+    </dd>
+
+    <dt class="col-sm-3">
+        Huésped
+    </dt>
+    <dd class="col-sm-9">
+        @Model.Huesped?.NombreHuesped
+    </dd>
+
+    <dt class="col-sm-3">
+        Habitación
+    </dt>
+    <dd class="col-sm-9">
+        @Model.Habitacion?.Numero
+    </dd>
+
+    <dt class="col-sm-3">
+        Tipo de habitación
+    </dt>
+    <dd class="col-sm-9">
+        @Model.Habitacion?.Tipo
+    </dd>
+
+    <dt class="col-sm-3">
+        Fecha de ingreso
+    </dt>
+    <dd class="col-sm-9">
+        @Model.FechaInicio.ToString("dd/MM/yyyy")
+    </dd>
+
+    <dt class="col-sm-3">
+        Fecha de salida
+    </dt>
+    <dd class="col-sm-9">
+        @Model.FechaFin.ToString("dd/MM/yyyy")
+    </dd>
+
+    <dt class="col-sm-3">
+        Método de pago
+    </dt>
+    <dd class="col-sm-9">
+        @Model.MetodoPago
+    </dd>
+
+    <dt class="col-sm-3">
+        Estado
+    </dt>
+    <dd class="col-sm-9">
+        @Model.Estado
+    </dd>
+
+</dl>
+
+<a asp-action="Edit"
+   asp-route-id="@Model.IdReserva"
+   class="btn btn-primary">
+    Editar
+</a>
+
+<a asp-controller="ReservaServicios"
+   asp-action="Index"
+   asp-route-idReserva="@Model.IdReserva"
+   class="btn btn-outline-primary">
+    Servicios de esta reserva
+</a>
+
+<a asp-action="Index"
+   class="btn btn-outline-secondary">
+    Volver al listado
+</a>
+<a asp-action="Edit"
+   asp-route-id="@Model.IdReserva"
+   class="btn btn-primary">
+    Editar
+</a>
+
+@if (Model.Estado != "Cancelada")
+{
+    <form asp-action="Cancelar"
+          asp-route-id="@Model.IdReserva"
+          method="post"
+          asp-antiforgery="true"
+          class="d-inline">
+
+        <button type="submit"
+                class="btn btn-warning"
+                onclick="return confirm('¿Está seguro de cancelar esta reserva?');">
+            Cancelar reserva
+        </button>
+
+    </form>
+}
+

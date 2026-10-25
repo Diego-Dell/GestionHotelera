@@ -1,0 +1,247 @@
+﻿@model ListaPaginada<Reserva>
+
+@{
+    ViewData["Title"] = "Reservas";
+
+    int? idHuesped = ViewData["IdHuesped"] as int?;
+    int? idHabitacion = ViewData["IdHabitacion"] as int?;
+
+    string? estado = ViewData["Estado"] as string;
+
+    string desde = ViewData["Desde"] is DateTime fechaDesde
+        ? fechaDesde.ToString("yyyy-MM-dd")
+        : "";
+
+    string hasta = ViewData["Hasta"] is DateTime fechaHasta
+        ? fechaHasta.ToString("yyyy-MM-dd")
+        : "";
+}
+
+<h1 class="mb-3">Reservas</h1>
+
+<a class="btn btn-primary mb-3" asp-action="Create">
+    Registrar reserva
+</a>
+
+<!-- FILTROS -->
+<form method="get" asp-action="Index" class="row g-3 mb-3">
+
+    <div class="col-md-4">
+        <label for="idHuesped" class="form-label">
+            Huésped
+        </label>
+
+        <select id="idHuesped"
+                name="idHuesped"
+                asp-items="ViewBag.Huespedes"
+                class="form-select">
+            <option value="">Todos</option>
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        <label for="idHabitacion" class="form-label">
+            Habitación
+        </label>
+
+        <select id="idHabitacion"
+                name="idHabitacion"
+                asp-items="ViewBag.Habitaciones"
+                class="form-select">
+            <option value="">Todas</option>
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        <label for="estado" class="form-label">
+            Estado
+        </label>
+
+        <select id="estado"
+                name="estado"
+                class="form-select">
+            <option value="">Todos</option>
+            <option value="Pendiente"
+                    selected="@(estado == "Pendiente")">
+                Pendiente
+            </option>
+            <option value="Confirmada"
+                    selected="@(estado == "Confirmada")">
+                Confirmada
+            </option>
+            <option value="Cancelada"
+                    selected="@(estado == "Cancelada")">
+                Cancelada
+            </option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <label for="desde" class="form-label">
+            Ingreso desde
+        </label>
+
+        <input type="date"
+               id="desde"
+               name="desde"
+               value="@desde"
+               class="form-control" />
+    </div>
+
+    <div class="col-md-3">
+        <label for="hasta" class="form-label">
+            Salida hasta
+        </label>
+
+        <input type="date"
+               id="hasta"
+               name="hasta"
+               value="@hasta"
+               class="form-control" />
+    </div>
+
+    <div class="col-md-6 d-flex align-items-end gap-2">
+        <button type="submit" class="btn btn-primary">
+            Buscar
+        </button>
+
+        <a asp-action="Index"
+           class="btn btn-outline-secondary">
+            Limpiar
+        </a>
+    </div>
+
+</form>
+
+<!-- TABLA DE RESERVAS -->
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Huésped</th>
+                <th>Habitación</th>
+                <th>Ingreso</th>
+                <th>Salida</th>
+                <th>Método de pago</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var reserva in Model)
+            {
+                <tr>
+                    <td>
+                        @reserva.Huesped?.NombreHuesped
+                    </td>
+
+                    <td>
+                        @reserva.Habitacion?.Numero
+                    </td>
+
+                    <td>
+                        @reserva.FechaInicio.ToString("dd/MM/yyyy")
+                    </td>
+
+                    <td>
+                        @reserva.FechaFin.ToString("dd/MM/yyyy")
+                    </td>
+
+                    <td>
+                        @reserva.MetodoPago
+                    </td>
+
+                    <td>
+                        @reserva.Estado
+                    </td>
+
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary"
+                           asp-action="Details"
+                           asp-route-id="@reserva.IdReserva">
+                            Detalle
+                        </a>
+
+                        <a class="btn btn-sm btn-outline-secondary"
+                           asp-action="Edit"
+                           asp-route-id="@reserva.IdReserva">
+                            Editar
+                        </a>
+
+                        <a class="btn btn-sm btn-outline-danger"
+                           asp-action="Delete"
+                           asp-route-id="@reserva.IdReserva">
+                            Eliminar
+                        </a>
+                    </td>
+                </tr>
+            }
+
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="7" class="text-center">
+                        No se encontraron reservas.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- PAGINACIÓN -->
+<p>
+    Total: @Model.TotalRegistros registros.
+    Página @Model.PaginaActual de @Model.TotalPaginas.
+</p>
+
+<nav aria-label="Páginas de reservas">
+    <ul class="pagination">
+
+        <li class="page-item @(!Model.TieneAnterior ? "disabled" : "")">
+            @if (Model.TieneAnterior)
+            {
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-pagina="@(Model.PaginaActual - 1)"
+                   asp-route-idHuesped="@idHuesped"
+                   asp-route-idHabitacion="@idHabitacion"
+                   asp-route-estado="@estado"
+                   asp-route-desde="@desde"
+                   asp-route-hasta="@hasta">
+                    Anterior
+                </a>
+            }
+            else
+            {
+                <span class="page-link" aria-disabled="true">
+                    Anterior
+                </span>
+            }
+        </li>
+
+        <li class="page-item @(!Model.TieneSiguiente ? "disabled" : "")">
+            @if (Model.TieneSiguiente)
+            {
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-pagina="@(Model.PaginaActual + 1)"
+                   asp-route-idHuesped="@idHuesped"
+                   asp-route-idHabitacion="@idHabitacion"
+                   asp-route-estado="@estado"
+                   asp-route-desde="@desde"
+                   asp-route-hasta="@hasta">
+                    Siguiente
+                </a>
+            }
+            else
+            {
+                <span class="page-link" aria-disabled="true">
+                    Siguiente
+                </span>
+            }
+        </li>
+
+    </ul>
+</nav>

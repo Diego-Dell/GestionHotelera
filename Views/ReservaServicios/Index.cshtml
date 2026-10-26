@@ -1,0 +1,32 @@
+﻿@model IEnumerable<GestionHotelera.Models.ReservaServicio>
+@{
+    ViewData["Title"] = "Servicios por Reserva";
+}
+
+<h1>Servicios contratados por reserva</h1>
+<p><a asp-action="Create" class="btn btn-primary">Agregar Servicio a Reserva</a></p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Reserva (Huésped)</th>
+            <th>Servicio</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Reserva.IdReserva - @item.Reserva.Huesped.NombreHuesped</td>
+                <td>@item.Servicio.Nombre</td>
+                <td>@item.Fecha.ToShortDateString()</td>
+                <td>@item.Hora</td>
+                <td>
+                    <a asp-action="Delete" asp-route-idReserva="@item.IdReserva" asp-route-idServicio="@item.IdServicio" class="btn btn-sm btn-danger">Quitar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

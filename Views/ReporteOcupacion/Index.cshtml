@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Reporte de Ocupación";
+}
+
+<h1>Reporte de Ocupación</h1>
+<form asp-action="Index" method="get" class="mb-4 row">
+    <div class="col-md-3">
+        <label>Fecha</label>
+        <input type="date" name="fechaFiltro" value="@ViewBag.Fecha" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <label>Tipo de Habitación</label>
+        <input type="text" name="tipoFiltro" value="@ViewBag.TipoFiltro" class="form-control" placeholder="Ej: Suite" />
+    </div>
+    <div class="col-md-2 align-self-end">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </div>
+</form>
+
+<div class="row mb-3">
+    <div class="col-md-3"><div class="alert alert-info"><strong>Total:</strong> @ViewBag.Total</div></div>
+    <div class="col-md-3"><div class="alert alert-danger"><strong>Ocupadas:</strong> @ViewBag.Ocupadas</div></div>
+    <div class="col-md-3"><div class="alert alert-success"><strong>Disponibles:</strong> @ViewBag.Disponibles</div></div>
+    <div class="col-md-3"><div class="alert alert-warning"><strong>% Ocupación:</strong> @(ViewBag.Total > 0 ? (ViewBag.Ocupadas * 100 / ViewBag.Total) : 0)%</div></div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr><th>Habitación</th><th>Tipo</th><th>Estado</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var hab in ViewBag.ListaHabitaciones)
+        {
+            bool ocupada = ((List<int>)ViewBag.ListaOcupadasIds).Contains(hab.IdHabitacion);
+            <tr>
+                <td>@hab.Numero</td>
+                <td>@hab.Tipo</td>
+                <td>
+                    @if (ocupada)
+                    {
+                        <span class="badge bg-danger">Ocupada</span>
+                    }
+                    else
+                    {
+
+                        <span class="badge bg-success">Disponible</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

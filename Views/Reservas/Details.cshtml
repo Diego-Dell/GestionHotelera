@@ -66,43 +66,39 @@
 
 </dl>
 
-<a asp-action="Edit"
-   asp-route-id="@Model.IdReserva"
-   class="btn btn-primary">
-    Editar
-</a>
+<div class="d-flex gap-2">
+    <a asp-action="Edit"
+       asp-route-id="@Model.IdReserva"
+       class="btn btn-primary">
+        Editar
+    </a>
 
-<a asp-controller="ReservaServicios"
-   asp-action="Index"
-   asp-route-idReserva="@Model.IdReserva"
-   class="btn btn-outline-primary">
-    Servicios de esta reserva
-</a>
+    <a asp-controller="ReservaServicios"
+       asp-action="Index"
+       asp-route-idReserva="@Model.IdReserva"
+       class="btn btn-outline-primary">
+        Servicios de esta reserva
+    </a>
 
-<a asp-action="Index"
-   class="btn btn-outline-secondary">
-    Volver al listado
-</a>
-<a asp-action="Edit"
-   asp-route-id="@Model.IdReserva"
-   class="btn btn-primary">
-    Editar
-</a>
+    <a asp-action="Index"
+       class="btn btn-outline-secondary">
+        Volver al listado
+    </a>
 
-@if (Model.Estado != "Cancelada")
-{
-    <form asp-action="Cancelar"
-          asp-route-id="@Model.IdReserva"
-          method="post"
-          asp-antiforgery="true"
-          class="d-inline">
+    @if (Model.Estado != "Cancelada")
+    {
+        <form asp-action="Cancelar"
+              asp-route-id="@Model.IdReserva"
+              method="post"
+              asp-antiforgery="true"
+              class="d-inline m-0">
 
-        <button type="submit"
-                class="btn btn-warning"
-                onclick="return confirm('¿Está seguro de cancelar esta reserva?');">
-            Cancelar reserva
-        </button>
+            <button type="submit"
+                    class="btn btn-warning"
+                    onclick="return confirm('¿Está seguro de cancelar esta reserva?');">
+                Cancelar reserva
+            </button>
 
-    </form>
-}
-
+        </form>
+    }
+</div>

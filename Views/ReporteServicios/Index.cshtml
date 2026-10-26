@@ -1,0 +1,44 @@
+﻿@model IEnumerable<dynamic>
+@{
+    ViewData["Title"] = "Reporte de Servicios";
+}
+
+<h1>Reporte de Servicios Solicitados</h1>
+<form asp-action="Index" method="get" class="mb-4 row">
+    <div class="col-md-3">
+        <label>Desde</label>
+        <input type="date" name="fechaInicio" value="@ViewBag.FechaInicio" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <label>Hasta</label>
+        <input type="date" name="fechaFin" value="@ViewBag.FechaFin" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <label>Servicio</label>
+        <select name="idServicio" class="form-control" asp-items="ViewBag.IdServicio">
+            <option value="">-- Todos --</option>
+        </select>
+    </div>
+    <div class="col-md-2 align-self-end">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </div>
+</form>
+
+<div class="alert alert-info">
+    <strong>Total de contrataciones en el período:</strong> @ViewBag.TotalContrataciones
+</div>
+
+<table class="table">
+    <thead>
+        <tr><th>Servicio</th><th>Cantidad de Contrataciones</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Servicio</td>
+                <td>@item.Cantidad</td>
+            </tr>
+        }
+    </tbody>
+</table>

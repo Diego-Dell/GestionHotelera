@@ -1,0 +1,54 @@
+﻿@model GestionHotelera.Models.ReservaServicio
+@{
+    ViewData["Title"] = "Agregar Servicio";
+}
+
+<h1>Agregar Servicio a Reserva</h1>
+<hr />
+<div class="row">
+    <div class="col-md-5">
+        <form asp-action="Create">
+            <!-- Este bloque muestra los errores de validación del servidor -->
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Reserva (Huésped)</label>
+                <select asp-for="IdReserva" class="form-select" asp-items="ViewBag.IdReserva">
+                    <option value="">-- Seleccione una reserva --</option>
+                </select>
+                <span asp-validation-for="IdReserva" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Servicio</label>
+                <select asp-for="IdServicio" class="form-select" asp-items="ViewBag.IdServicio">
+                    <option value="">-- Seleccione un servicio --</option>
+                </select>
+                <span asp-validation-for="IdServicio" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Fecha" class="control-label"></label>
+                <input asp-for="Fecha" class="form-control" type="date" required />
+                <span asp-validation-for="Fecha" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Hora" class="control-label"></label>
+                <input asp-for="Hora" class="form-control" type="time" required />
+                <span asp-validation-for="Hora" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a asp-action="Index" class="btn btn-secondary">Volver al listado</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
